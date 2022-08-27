@@ -33,14 +33,14 @@
 
   <worldbody>
     <geom name="floor" type="plane" conaffinity="1" size="100 100 .2" material="grid"/>
-    <body name="torso" pos="0 0 1.5" childclass="body">
+    <body name="torso" pos="0 0 1.5" childclass="body">  <!--body is the class that will be shown in Isaac Gym's UI's Actors tag. Note that above there is a definition of "body", not sure whether we are talking about the same "body" here-->
       <light name="top" pos="0 0 2" mode="trackcom"/>
       <camera name="back" pos="-3 0 1" xyaxes="0 -1 0 1 0 2" mode="trackcom"/>
       <camera name="side" pos="0 -3 1" xyaxes="1 0 0 0 1 2" mode="trackcom"/>
       <freejoint name="root"/>
       <site name="root" class="force-torque"/>
       <geom name="torso" fromto="0 -.07 0 0 .07 0" size=".07"/>
-      <geom name="upper_waist" fromto="-.01 -.06 -.12 -.01 .06 -.12" size=".06"/>
+      <geom name="upper_waist" fromto="-.01 -.06 -.12 -.01 .06 -.12" size=".06"/>  <!--geom will be drawn, but without a "body" with the same name, the geom will only be considered as a part of the parent "body" and will not be selectable in Isaac Gym's UI (Actors)-->
       <site name="torso" class="touch" type="box" pos="0 0 -.05" size=".075 .14 .13"/>
       <body name="head" pos="0 0 .19">
         <geom name="head" type="sphere" size=".09"/>
