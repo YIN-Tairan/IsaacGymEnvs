@@ -284,7 +284,7 @@ class Humanoid(VecTask):
         force_tensor = gymtorch.unwrap_tensor(forces)
         self.gym.set_dof_actuation_force_tensor(self.sim, force_tensor)
 
-    def post_physics_step(self):
+    def post_physics_step(self): # Note: this is where the reward is computed. The reward is computed after a physics step.
         self.progress_buf += 1
         self.randomize_buf += 1
 
@@ -322,7 +322,7 @@ class Humanoid(VecTask):
 
 @torch.jit.script
 def compute_humanoid_reward(
-    obs_buf,
+    obs_buf, # Note: observation buffer ?
     reset_buf,
     progress_buf,
     actions,
@@ -347,7 +347,7 @@ def compute_humanoid_reward(
 
     # reward for being upright
     up_reward = torch.zeros_like(heading_reward)
-    up_reward = torch.where(obs_buf[:, 10] > 0.93, up_reward + up_weight, up_reward)
+    up_reward = torch.where(obs_buf[:, 10] > 0.93, up_reward + up_weight, up_reward) ## Note: torch.where works as "condition ? a : b"
 
     actions_cost = torch.sum(actions ** 2, dim=-1)
 
@@ -393,10 +393,10 @@ def compute_humanoid_observations(obs_buf, root_states, targets, potentials, inv
     prev_potentials_new = potentials.clone()
     potentials = -torch.norm(to_target, p=2, dim=-1) / dt
 
-    torso_quat, up_proj, heading_proj, up_vec, heading_vec = compute_heading_and_up(
+    torso_quat, up_proj, heading_proj, up_vec, heading_vec = compute_heading_and_up( # Note: this function is defined in torch_jit_utils.py, maybe we can use it directly
         torso_rotation, inv_start_rot, to_target, basis_vec0, basis_vec1, 2)
 
-    vel_loc, angvel_loc, roll, pitch, yaw, angle_to_target = compute_rot(
+    vel_loc, angvel_loc, roll, pitch, yaw, angle_to_target = compute_rot( # Note: this function is defined in torch_jit_utils.py, maybe we can use it directly
         torso_quat, velocity, ang_velocity, targets, torso_position)
 
     roll = normalize_angle(roll).unsqueeze(-1)

@@ -6,6 +6,9 @@ This repo is only a fork of the original Isaac Gym Benchmark Environments and is
 
 ## TODO:
 1. Figure out how the XML files are used to construct actors. (See notes in assets/mjcf/nv_humanoid.xml)
+2. Figure out how the rewards are defined. Figure out what is torch.jit (See line 323 in isaacgymenvs/tasks/humanoid.py & comment)
+3. Where & how is amp's rewards constructed/used?
+4. Learn how to load models (from checkpoint as well)
 
 ## Finished & notes:
 

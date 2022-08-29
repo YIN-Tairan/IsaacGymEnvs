@@ -280,7 +280,8 @@ class HumanoidAMP(HumanoidAMPBase):
             self._hist_amp_obs_buf[env_ids] = self._amp_obs_buf[env_ids, 0:(self._num_amp_obs_steps - 1)]
         return
     
-    def _compute_amp_observations(self, env_ids=None):
+    def _compute_amp_observations(self, env_ids=None): # Note: If multiple id are given, then the obs is computed for each id separately. 
+                                                       # We need to understand how the tensors are formed.
         key_body_pos = self._rigid_body_pos[:, self._key_body_ids, :]
         if (env_ids is None):
             self._curr_amp_obs_buf[:] = build_amp_observations(self._root_states, self._dof_pos, self._dof_vel, key_body_pos,
